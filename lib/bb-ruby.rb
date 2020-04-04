@@ -318,7 +318,14 @@ module BBRuby
     private
 
     def process_tags(text, tags_alternative_definition={}, escape_html=true, method=:disable, *tags)
+      
       text = text.dup
+      
+      if text.include?('[code]')
+        gsub!(text, '[code]', '<code>')
+        gsub!(text, '[/code]', '</code>')
+        return text
+      end
 
       # escape "<, >, &" and quotes to remove any html
       if escape_html

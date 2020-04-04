@@ -38,6 +38,7 @@ class TestBBRuby < Test::Unit::TestCase
   end
 
   def test_code
+    assert_equal '<code>simple [b]text[/b]</code>', '[code]simple [b]text[/b][/code]'.bbcode_to_html
     assert_equal '<code>simple</code>', '[code]simple[/code]'.bbcode_to_html
     assert_equal '<code>simple</code>', '[code:7a9ca2c5c3]simple[/code:7a9ca2c5c3]'.bbcode_to_html
     assert_equal "<code>var bxi = 0;\n//Holds current speed of scrolling menu</code>", "[code:1:91cbdd72b7]var bxi = 0;\n//Holds current speed of scrolling menu[/code:1:91cbdd72b7]".bbcode_to_html
