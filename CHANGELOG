@@ -1,3 +1,7 @@
+== 1.3.1 2020-04-04
+
+* Fixes in [code] tag
+
 == 1.3.0 2020-04-04
 
 * Adjust the [code] to not convert the bbcode inside, keeping them as code.

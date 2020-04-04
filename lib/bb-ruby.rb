@@ -320,12 +320,6 @@ module BBRuby
     def process_tags(text, tags_alternative_definition={}, escape_html=true, method=:disable, *tags)
       
       text = text.dup
-      
-      if text.include?('[code]')
-        gsub!(text, '[code]', '<code>')
-        gsub!(text, '[/code]', '</code>')
-        return text
-      end
 
       # escape "<, >, &" and quotes to remove any html
       if escape_html
@@ -337,6 +331,30 @@ module BBRuby
       end
 
       tags_definition = @@tags.merge(tags_alternative_definition)
+
+      if text.include?('[code]') && text.include?('[/code]')
+
+        code_init = text.index('[code]')
+        code_init += 6
+        code_ended = text.index('[/code]')
+        
+        text_before_code = text[0..code_init - 1]
+        text_after_code = text[code_ended..text.size]
+        text_in_code = text[code_init..code_ended -1]
+        text_whitout_code = text_before_code + "<>" + text_after_code
+
+        tags_definition.each_value do |t|
+          gsub!(text_whitout_code, t[0], t[1]) unless tags.include?( t[4] )
+        end
+
+        code_init = text_whitout_code.index('<>')
+        text_before_code = text_whitout_code[0..code_init - 1]
+        text_after_code = text_whitout_code[code_init + 2..text_whitout_code.size]
+
+        text = text_before_code + text_in_code + text_after_code
+
+        return text
+      end
 
       # parse bbcode tags
       case method
